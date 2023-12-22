@@ -7,19 +7,20 @@ const Navbar = () => {
 
     const { user, logOut } = useContext(AuthContext);
 
-    const handleLogOut = () =>{
+    const handleLogOut = () => {
         logOut()
-        .then(() =>{})
-        .catch(error => console.log(error));
+            .then(() => { })
+            .catch(error => console.log(error));
     }
 
     const navOptions = <>
         <li className="hover:text-fuchsia-600"><Link to='/'>Home</Link></li>
-        <li className="hover:text-fuchsia-600"><a href="">About</a></li>
+        <li className="hover:text-fuchsia-600"><Link to='/about'>About</Link></li>
 
         {
             user ? <>
-            <button onClick={handleLogOut} className="btn hover:text-fuchsia-600 btn-ghost">Log Out</button>
+
+                <button onClick={handleLogOut} className="btn hover:text-fuchsia-600 btn-ghost">Log Out</button>
             </> : <>
                 <li className="hover:text-fuchsia-600"><Link to='login' >Log In</Link></li>
             </>
@@ -46,7 +47,13 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+                    <Link to='dashboard' className="btn">
+                        <div className="avatar">
+                            <div className="w-8 rounded">
+                                <img src={user?.photoURL} alt='' />
+                            </div>
+                        </div>
+                        DashBoard</Link>
                 </div>
             </div>
         </>

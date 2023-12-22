@@ -1,14 +1,17 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider"
+import Swal from "sweetalert2";
 
 
 
 const SignUp = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const { createUser } = useContext(AuthContext);
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    
+    const navigate = useNavigate();
 
     const onSubmit = data => {
         console.log(data);
@@ -16,6 +19,20 @@ const SignUp = () => {
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+                        console.log("user profile update")
+                        reset();
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "User created",
+                            showConfirmButton: false,
+                            timer: 1200
+                        });
+                        navigate('/');
+                    })
+                    .catch(error => console.log(error));
             })
     }
 
@@ -34,19 +51,13 @@ const SignUp = () => {
                                 {errors.name && <span className="text-fuchsia-600 ">This field is required</span>}
                             </div>
                             <div className="form-control">
-                                <div>
-                                    <label htmlFor='image' className='block mb-2 text-sm' >
-                                        Select Image:
-                                    </label>
-                                    <input
-                                        required
-                                        type='file'
-                                        id='image'
-                                        name='image'
-                                        accept='image/*'
-                                    />
-                                </div>
+                                <label className="label">
+                                    <span className="label-text">Photo URL</span>
+                                </label>
+                                <input type="text" placeholder="Photo url" className="input input-bordered"   {...register("photoURL", { required: true })} />
+                                {errors.photoURL && <span className="text-fuchsia-600 ">Must Add Photo URL</span>}
                             </div>
+
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>

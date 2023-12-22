@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 const Banner = () => {
@@ -10,7 +11,8 @@ const Banner = () => {
                     <div className="max-w-md">
                         <h1 className="mb-5 text-5xl font-bold">Welcome to Task Pilot</h1>
                         <p className="mb-5">Keep track off your work with Task Pilot</p>
-                        <button className="btn bg-fuchsia-600 border-0 text-white hover:text-fuchsia-600">Let’s Explore</button>
+
+                       <Link to='/login'> <button  className="btn bg-fuchsia-600 border-0 text-white hover:text-fuchsia-600">Let’s Explore</button></Link>
                     </div>
                 </div>
             </div>
